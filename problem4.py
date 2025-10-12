@@ -33,7 +33,13 @@ def save_to_json(data, filename):
     # Hint:
     # with open(filename, 'w') as f:
     #     json.dump(data, f, indent=2)
-    pass
+    try:
+        with open(filename, "w") as f:
+            json.dump(data,f, indent = 2)
+        return True
+    except Exception:
+        return False
+
 
 
 def load_from_json(filename):
@@ -61,7 +67,13 @@ def load_from_json(filename):
     # Hint:
     # with open(filename, 'r') as f:
     #     return json.load(f)
-    pass
+    try:
+        with open(filename, 'r') as f:
+            d = json.load(f)
+        return d
+    except Exception:
+        return False
+    
 
 
 def save_contacts_to_file(contacts, filename="contacts.json"):
@@ -77,7 +89,7 @@ def save_contacts_to_file(contacts, filename="contacts.json"):
     """
     # TODO: Implement this function
     # Use save_to_json() to save the contacts list
-    pass
+    return save_to_json(contacts,filename)
 
 
 def load_contacts_from_file(filename="contacts.json"):
@@ -93,7 +105,12 @@ def load_contacts_from_file(filename="contacts.json"):
     # TODO: Implement this function
     # Use load_from_json() to load contacts
     # If None is returned (file not found), return empty list []
-    pass
+    file = load_from_json(filename)
+
+    if file is None:
+        return []
+    else:
+        return file
 
 
 def append_contact_to_file(contact, filename="contacts.json"):
@@ -112,7 +129,9 @@ def append_contact_to_file(contact, filename="contacts.json"):
     # 1. Load existing contacts
     # 2. Add new contact to list
     # 3. Save updated list back to file
-    pass
+    file = load_contacts_from_file(filename)
+    file.append(contact)
+    save_contacts_to_file(file, filename)
 
 
 def backup_file(source_filename, backup_filename):
@@ -128,7 +147,14 @@ def backup_file(source_filename, backup_filename):
     """
     # TODO: Implement this function
     # Load data from source_filename and save to backup_filename
-    pass
+    try:
+        file = load_contacts_from_file(source_filename)
+        save_contacts_to_file(file, backup_filename)
+        return True
+    except Exception:
+        return False
+
+    
 
 
 def get_file_stats(filename):
@@ -153,12 +179,43 @@ def get_file_stats(filename):
     # Use os.path.exists() and os.path.getsize() (need to import os)
     # Load the JSON data and determine its type
     import os
+    
 
     # Check if file exists
     # Get file size
     # Load data and check type
     # Return statistics dictionary
-    pass
+    stats = {}
+    if  os.path.exists(filename):
+        stats["exists"] = True
+        stats["size"] = os.path.getsize(filename)
+    
+        data = load_contacts_from_file(filename)
+
+        if isinstance(data, list):
+            stats["type"] = "list"
+            stats["count"] = len(data)
+        
+        elif isinstance(data, dict):
+            stats["type"] = "dict"
+            stats["count"] = len(data)
+        
+        else:
+            stats["type"] = "other"
+            stats["count"] = None
+    
+    else:
+        stats["exists"] = None
+        stats["type"] = None
+        stats["count"] = 0
+        stats["size"] = 0
+    
+    return stats
+
+
+
+    
+
 
 
 def merge_json_files(file1, file2, output_file):
@@ -183,7 +240,16 @@ def merge_json_files(file1, file2, output_file):
     # 2. If both are lists, combine them
     # 3. Save combined list to output_file
     # 4. Handle cases where files might not exist
-    pass
+    try:
+        data1 = load_contacts_from_file(file1)
+        data2 = load_contacts_from_file(file2)
+    
+        if isinstance(data1, list) and isinstance(data2, list):
+            L = data1 + data2
+    
+        save_contacts_to_file(L, output_file)
+    except Exception:
+        return False
 
 
 def search_json_file(filename, key, value):
@@ -205,7 +271,16 @@ def search_json_file(filename, key, value):
     """
     # TODO: Implement this function
     # Load data and filter items where item[key] == value
-    pass
+    data = load_contacts_from_file(filename)
+    L = []
+    if isinstance(data,list):
+        for i in data:
+            if key in i and i[key] == value :
+                L.append(i)
+    
+    return L
+
+
 
 
 # Test cases
