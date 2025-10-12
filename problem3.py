@@ -23,7 +23,9 @@ def create_contact(name, phone, email=""):
     """
     # TODO: Implement this function
     # Return a dictionary with the contact information
-    pass
+    contact = {"name" : name, "phone": phone, "email" : email}
+
+    return contact
 
 
 def add_contact(contacts, name, phone, email=""):
@@ -51,7 +53,9 @@ def add_contact(contacts, name, phone, email=""):
     # 1. Create a contact using create_contact()
     # 2. Add it to the contacts list
     # 3. Return the contact
-    pass
+    new_contact = create_contact(name, phone, email)
+    contacts.append(new_contact)
+    return new_contact
 
 
 def find_contact_by_name(contacts, name):
@@ -73,7 +77,10 @@ def find_contact_by_name(contacts, name):
     # TODO: Implement this function
     # Loop through contacts and compare names (case-insensitive)
     # Hint: Use .lower() for case-insensitive comparison
-    pass
+    for i in contacts:
+        if i["name"].lower() == name.lower():
+            return i
+       
 
 
 def search_contacts(contacts, search_term):
@@ -99,7 +106,12 @@ def search_contacts(contacts, search_term):
     # Find contacts where search_term appears in name OR phone
     # Use .lower() for case-insensitive search
     # Hint: Use 'in' operator to check if search_term is in the string
-    pass
+    cont = []
+    res = search_term.lower()
+    for i in contacts:
+        if res in i["name"].lower() or res in i["phone"] or res in i["email"]:
+            cont.append(i)
+    return cont
 
 
 def delete_contact(contacts, name):
@@ -124,7 +136,14 @@ def delete_contact(contacts, name):
     # Find the contact and remove it from the list
     # Return True if found and deleted, False otherwise
     # Hint: Use enumerate() to get index, then use .pop() to remove
-    pass
+    lower_name = name.lower()
+
+    for index, i in enumerate(contacts):
+        if i["name"].lower() == lower_name:
+            contacts.pop(index)
+            return True
+    
+    return False
 
 
 def count_contacts_with_email(contacts):
@@ -147,7 +166,12 @@ def count_contacts_with_email(contacts):
     """
     # TODO: Implement this function
     # Count contacts where email is not empty
-    pass
+    count = 0
+    for i in contacts:
+        if i["email"]:
+            count += 1
+    
+    return count
 
 
 def get_all_phone_numbers(contacts):
@@ -171,7 +195,12 @@ def get_all_phone_numbers(contacts):
     # TODO: Implement this function
     # Extract phone number from each contact
     # Hint: Use list comprehension or a loop
-    pass
+    numbers = []
+    for i in contacts:
+        numbers.append(i["phone"])
+    
+    return numbers
+
 
 
 def sort_contacts_by_name(contacts):
@@ -196,7 +225,9 @@ def sort_contacts_by_name(contacts):
     # TODO: Implement this function
     # Use sorted() with a key function
     # Hint: sorted(contacts, key=lambda c: c['name'])
-    pass
+    
+
+    return sorted(contacts, key = lambda c: c['name'])
 
 
 def contact_exists(contacts, name):
@@ -212,7 +243,10 @@ def contact_exists(contacts, name):
     """
     # TODO: Implement this function
     # Use find_contact_by_name and check if result is not None
-    pass
+    if find_contact_by_name(contacts, name):
+        return True
+    else:
+        return False
 
 
 # Test cases
