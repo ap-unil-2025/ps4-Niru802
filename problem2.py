@@ -23,7 +23,9 @@ def create_student_record(name, age, major, gpa):
     """
     # TODO: Implement this function
     # Return a dictionary with the provided information
-    pass
+    student_info = {"name": name, "age": age, "major": major, "gpa": gpa}
+
+    return student_info
 
 
 def get_value_safely(dictionary, key, default=None):
@@ -47,7 +49,9 @@ def get_value_safely(dictionary, key, default=None):
     """
     # TODO: Implement this function
     # Hint: Use the .get() method or check if key in dictionary
-    pass
+    value = dictionary.get(key, default)
+
+    return value
 
 
 def merge_dictionaries(dict1, dict2):
@@ -67,7 +71,13 @@ def merge_dictionaries(dict1, dict2):
     """
     # TODO: Implement this function
     # Create a new dictionary with items from both
-    pass
+    merged_d = dict1.copy()
+    for key, value in dict2.items():
+        merged_d[key] = value
+    
+    return merged_d
+
+
 
 
 def count_word_frequency(text):
@@ -91,8 +101,21 @@ def count_word_frequency(text):
     # 2. Remove punctuation (you can use .replace() or import string)
     # 3. Split into words
     # 4. Count each word's frequency
-    pass
+    import string
+    lower_text = text.lower()
+    for p in string.punctuation:
+        lower_words = lower_text.replace(p," ")
+    words = lower_words.split()
 
+    words_dico = {}
+
+    for i in words:
+        if i in words_dico: 
+            words_dico[i] += 1
+        else:
+            words_dico[i] = 1
+    
+    return words_dico
 
 def invert_dictionary(dictionary):
     """
@@ -111,7 +134,11 @@ def invert_dictionary(dictionary):
     """
     # TODO: Implement this function
     # Create a new dictionary with values as keys and keys as values
-    pass
+    inverted_d = {}
+    for k,v in dictionary.items():
+        inverted_d[v] = k
+    return inverted_d
+
 
 
 def filter_dictionary(dictionary, keys_to_keep):
@@ -131,7 +158,15 @@ def filter_dictionary(dictionary, keys_to_keep):
     """
     # TODO: Implement this function
     # Loop through keys_to_keep and add them to result if they exist
-    pass
+    new_dico = {}
+
+    for k,v in dictionary.items():
+        if k in keys_to_keep:
+            new_dico[k] = v
+    
+    return new_dico
+            
+    
 
 
 def group_by_first_letter(words):
@@ -153,7 +188,16 @@ def group_by_first_letter(words):
     #   - Get first letter
     #   - Add word to the list for that letter
     # Hint: Use .setdefault() or check if key exists
-    pass
+    words_dico = {}
+    
+    for i in words:
+        first_letter = i[0].lower()
+        if first_letter not in words_dico:
+            words_dico[first_letter] = []
+        words_dico[first_letter].append(i)
+    
+    return words_dico
+
 
 
 def calculate_grades_average(students):
@@ -178,7 +222,12 @@ def calculate_grades_average(students):
     # TODO: Implement this function
     # For each student, calculate average of their grades
     # Hint: sum(grades) / len(grades)
-    pass
+    avg_dico = {}
+
+    for k,v in students.items():
+        avg_dico[k] = round((sum(v) / len(v)),2)
+    
+    return avg_dico
 
 
 def nested_dict_access(data, keys):
@@ -203,7 +252,13 @@ def nested_dict_access(data, keys):
     # TODO: Implement this function
     # Start with data, then traverse using each key
     # Return None if any key is missing
-    pass
+    try:
+        for k in keys:
+            data = data[k]
+        return data
+    except(KeyError, IndexError):
+        return None
+
 
 
 # Test cases
