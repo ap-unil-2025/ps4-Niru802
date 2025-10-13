@@ -35,7 +35,10 @@ def factorial(n):
     # if n <= 1:
     #     return 1
     # return n * factorial(n - 1)
-    pass
+    if n <= 1:
+        return 1
+    
+    return n * factorial(n-1)
 
 
 def countdown(n):
@@ -57,7 +60,11 @@ def countdown(n):
     # TODO: Implement this function recursively
     # Base case: if n is 0, print "Blastoff!" and return
     # Recursive case: print n, then call countdown(n-1)
-    pass
+    if n == 0:
+        print("Blastoff")
+    else:
+        print(n)
+        return countdown(n-1)
 
 
 def sum_list(numbers):
@@ -82,7 +89,11 @@ def sum_list(numbers):
     # if not numbers:  # empty list
     #     return 0
     # return numbers[0] + sum_list(numbers[1:])
-    pass
+    if not numbers:
+        return 0
+    
+    sum_num = numbers[0] + sum_list(numbers[1:])
+    return sum_num
 
 
 def fibonacci(n):
@@ -108,7 +119,13 @@ def fibonacci(n):
     # TODO: Implement this function recursively
     # Base cases: if n is 0, return 0; if n is 1, return 1
     # Recursive case: return fibonacci(n-1) + fibonacci(n-2)
-    pass
+    if n == 0:
+        return 0
+    
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
 
 
 def power(base, exponent):
@@ -131,7 +148,10 @@ def power(base, exponent):
     # TODO: Implement this function recursively
     # Base case: if exponent is 0, return 1
     # Recursive case: return base * power(base, exponent-1)
-    pass
+    if exponent == 0:
+        return 1
+    else:
+        return base * power(base, exponent - 1)
 
 
 def reverse_string(text):
@@ -156,7 +176,10 @@ def reverse_string(text):
     # if len(text) <= 1:
     #     return text
     # return text[-1] + reverse_string(text[:-1])
-    pass
+    if len(text) <= 1:
+        return text
+    else:
+        return text[-1] + reverse_string(text[:-1])
 
 
 def count_down_list(n):
@@ -176,7 +199,12 @@ def count_down_list(n):
     # TODO: Implement this function recursively
     # Base case: if n is 0, return empty list
     # Recursive case: return [n] + count_down_list(n-1)
-    pass
+    
+    if n == 0:
+        return  []
+    else: 
+        return [n] + count_down_list(n-1)
+
 
 
 def flatten_list(nested_list):
@@ -207,7 +235,15 @@ def flatten_list(nested_list):
     #     else:
     #         result.append(item)
     # return result
-    pass
+    result = []
+
+    for i in nested_list:
+        if isinstance(i, list):
+            result.extend(flatten_list(i))
+        else:
+            result.append(i)
+    return result
+
 
 
 # Test cases
